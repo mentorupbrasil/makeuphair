@@ -49,6 +49,18 @@ Acesse:
 
 **Login demo:** `admin@makeuphair.com` / `admin123`
 
+## Deploy na Vercel
+
+1. Conecte o repositório [mentorupbrasil/makeuphair](https://github.com/mentorupbrasil/makeuphair) no [painel da Vercel](https://vercel.com)
+2. **Root Directory:** deixe vazio (raiz do repo) — o `package.json` já está na raiz
+3. **Framework:** Next.js (detectado automaticamente)
+4. Em **Settings → Environment Variables**, adicione:
+   - `DATABASE_URL` = `file:./dev.db`
+   - `AUTH_SECRET` = uma chave aleatória longa
+5. Clique em **Deploy** ou **Redeploy** no último deployment
+
+Se aparecer **404 NOT_FOUND** da Vercel, o deploy não concluiu — abra **Deployments**, veja o log do build e corrija o erro, ou faça **Redeploy** após o push das correções.
+
 ## Estrutura do banco
 
 O schema Prisma inclui as tabelas que você propôs, expandidas:

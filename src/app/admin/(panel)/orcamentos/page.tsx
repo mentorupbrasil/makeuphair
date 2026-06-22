@@ -3,6 +3,7 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import { Card } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { WhatsAppButton } from "@/components/admin/whatsapp-button";
+import { BRAND, whatsappUrl } from "@/lib/brand";
 
 const STATUS_ORC = {
   RASCUNHO: "Rascunho",
@@ -28,15 +29,13 @@ export default async function OrcamentosPage() {
       <div className="mt-6 space-y-4">
         {orcamentos.map((o) => {
           const nome = o.cliente?.nome || o.nomeCliente;
-          const msg = encodeURIComponent(
+          const msgText =
             `Olá ${nome}! Segue seu orçamento:\n\n` +
             `Evento: ${o.evento || "—"}\n` +
             `Serviços: ${o.servicos}\n` +
             `Valor: ${formatCurrency(o.valor)}\n` +
             `Validade: ${formatDate(o.validade)}\n\n` +
-            `${perfil?.nome || "MakeupHair"}`
-          );
-          const whatsapp = perfil?.whatsapp || "5511999999999";
+            `${perfil?.nome || BRAND.fullName}`;
 
           return (
             <Card key={o.id} className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
@@ -52,9 +51,7 @@ export default async function OrcamentosPage() {
                   <p className="text-stone-400">Validade: {formatDate(o.validade)}</p>
                 </div>
               </div>
-              <WhatsAppButton
-                href={`https://wa.me/${whatsapp}?text=${msg}`}
-              />
+              <WhatsAppButton href={whatsappUrl(msgText)} />
             </Card>
           );
         })}

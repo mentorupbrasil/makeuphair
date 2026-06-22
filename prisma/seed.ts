@@ -23,14 +23,22 @@ async function main() {
 
   await prisma.perfil.upsert({
     where: { id: "perfil-default" },
-    update: {},
+    update: {
+      nome: "Bianca Brito",
+      bio: "Maquiadora e penteadista especializada em noivas, eventos e produções completas. Beleza com elegância e sofisticação.",
+      telefone: "(99) 98145-2008",
+      endereco: "Rua Guarani, 556 — Vila Redenção II, Imperatriz — MA",
+      instagram: "https://www.instagram.com/biancabrito.makeup/",
+      whatsapp: "5599981452008",
+    },
     create: {
       id: "perfil-default",
       nome: "Bianca Brito",
       bio: "Maquiadora e penteadista especializada em noivas, eventos e produções completas. Beleza com elegância e sofisticação.",
-      telefone: "(11) 99999-9999",
-      instagram: "@biancabrito.makeup",
-      whatsapp: "5511999999999",
+      telefone: "(99) 98145-2008",
+      endereco: "Rua Guarani, 556 — Vila Redenção II, Imperatriz — MA",
+      instagram: "https://www.instagram.com/biancabrito.makeup/",
+      whatsapp: "5599981452008",
     },
   });
 

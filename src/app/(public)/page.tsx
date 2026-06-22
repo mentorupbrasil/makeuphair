@@ -7,7 +7,8 @@ import { BrandLogo } from "@/components/public/brand-logo";
 import { BRAND } from "@/lib/brand";
 import { formatCurrency } from "@/lib/utils";
 import { CATEGORIA_SERVICO_LABEL } from "@/lib/constants";
-import { Star, Clock } from "lucide-react";
+import { Star, Clock, MapPin } from "lucide-react";
+import { whatsappUrl } from "@/lib/brand";
 
 export default async function HomePage() {
   const [servicos, depoimentos, perfil] = await Promise.all([
@@ -121,6 +122,53 @@ export default async function HomePage() {
                 <p className="mt-4 text-sm font-medium text-brand-brown">— {d.nome}</p>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="px-4 py-16">
+        <div className="mx-auto max-w-6xl">
+          <h2 className="text-center font-serif text-3xl text-brand-brown">Contato</h2>
+          <p className="mt-2 text-center text-brand-taupe-dark">
+            Visite o studio ou fale com a Bianca
+          </p>
+          <div className="mt-8 grid gap-6 md:grid-cols-3">
+            <Card className="text-center">
+              <MapPin className="mx-auto h-6 w-6 text-brand-camel" />
+              <p className="mt-3 text-sm font-medium text-brand-brown">Studio</p>
+              <a
+                href={BRAND.contact.mapsUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block text-sm text-brand-taupe-dark hover:text-brand-brown"
+              >
+                {BRAND.contact.address}
+              </a>
+            </Card>
+            <Card className="text-center">
+              <p className="text-2xl text-brand-camel">📱</p>
+              <p className="mt-3 text-sm font-medium text-brand-brown">WhatsApp</p>
+              <a
+                href={whatsappUrl()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block text-sm text-brand-taupe-dark hover:text-brand-brown"
+              >
+                {BRAND.contact.whatsappDisplay}
+              </a>
+            </Card>
+            <Card className="text-center">
+              <p className="text-2xl text-brand-camel">📷</p>
+              <p className="mt-3 text-sm font-medium text-brand-brown">Instagram</p>
+              <a
+                href={BRAND.contact.instagram}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 block text-sm text-brand-taupe-dark hover:text-brand-brown"
+              >
+                {BRAND.contact.instagramHandle}
+              </a>
+            </Card>
           </div>
         </div>
       </section>
