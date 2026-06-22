@@ -18,7 +18,7 @@ export default async function MidiasPage() {
       <p className="section-label">Site</p>
       <h1 className="font-display mt-2 text-3xl font-light">Portfólio & Home</h1>
       <p className="mt-1 text-sm text-stone">
-        Cadastre trabalhos por cliente (2 fotos + @). Organize a ordem e escolha o que vai no hero.
+        Cadastre trabalhos por modelo (3 fotos + @). Organize a ordem e escolha o que vai no hero.
       </p>
       <div className="mt-8">
         <TrabalhosManager initial={trabalhos} />

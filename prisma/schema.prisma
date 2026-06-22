@@ -310,7 +310,7 @@ model Midia {
   createdAt    DateTime  @default(now())
 }
 
-// ─── Portfólio por cliente (2 fotos + @) ────────────────────
+// ─── Portfólio por modelo (3 fotos + @) ────────────────────
 
 model Trabalho {
   id           String         @id @default(cuid())

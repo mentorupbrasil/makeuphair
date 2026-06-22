@@ -18,14 +18,8 @@ export async function POST(request: Request) {
   const form = await request.formData();
   const files = form.getAll("files").filter((f): f is File => f instanceof File && f.size > 0);
 
-  if (files.length === 0) {
-    return NextResponse.json({ error: "Selecione pelo menos 2 fotos" }, { status: 400 });
-  }
-  if (files.length < 2) {
-    return NextResponse.json({ error: "Selecione 2 fotos por cliente" }, { status: 400 });
-  }
-  if (files.length > 3) {
-    return NextResponse.json({ error: "Máximo de 3 fotos por cliente" }, { status: 400 });
+  if (files.length !== 3) {
+    return NextResponse.json({ error: "Selecione exatamente 3 fotos por modelo" }, { status: 400 });
   }
 
   const instagram = (form.get("instagram") as string)?.trim() || null;

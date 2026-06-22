@@ -67,13 +67,13 @@ export function TrabalhosManager({ initial }: { initial: Trabalho[] }) {
       <div className="admin-card p-6">
         <h2 className="font-display text-xl font-light">Novo trabalho (cliente)</h2>
         <p className="mt-1 text-sm text-stone">
-              Envie 2 fotos por cliente (ou 3). Vai para o portfólio abaixo na home.
+          Envie 3 fotos por modelo + @. Vai para o portfólio abaixo na home.
           Marque &ldquo;Hero&rdquo; só se quiser no carrossel do topo.
         </p>
         <form onSubmit={handleUpload} className="mt-6 grid gap-4 md:grid-cols-2">
           <div className="md:col-span-2">
             <label className="text-[10px] uppercase tracking-[0.2em] text-stone">
-              Fotos (selecione 2 ou 3 de uma vez)
+              Fotos (selecione 3 de uma vez)
             </label>
             <input
               type="file"
@@ -110,7 +110,7 @@ export function TrabalhosManager({ initial }: { initial: Trabalho[] }) {
             </button>
           </div>
         </form>
-        {msg && <p className={`mt-4 text-sm ${msg.includes("Erro") || msg.includes("Máximo") ? "text-red-600" : "text-gold"}`}>{msg}</p>}
+        {msg && <p className={`mt-4 text-sm ${msg.includes("Erro") || msg.includes("exatamente") ? "text-red-600" : "text-gold"}`}>{msg}</p>}
       </div>
 
       <div className="space-y-6">
@@ -153,7 +153,7 @@ export function TrabalhosManager({ initial }: { initial: Trabalho[] }) {
                 </button>
               </div>
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-3 md:max-w-xl">
+            <div className="mt-4 grid grid-cols-3 gap-3 md:max-w-2xl">
               {t.fotos.map((f) => (
                 <div key={f.id} className="relative aspect-[3/4] bg-ivory-muted">
                   <Image src={f.url} alt="" fill className="object-cover" />
