@@ -4,7 +4,7 @@ import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
   LayoutDashboard, Calendar, Users, Wallet, Package, Heart,
-  FileText, Settings, LogOut, Menu, X, Image,
+  FileText, Settings, LogOut, Menu, X, Image, MessageSquare,
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { NAV_ADMIN } from "@/lib/constants";
@@ -13,7 +13,7 @@ import { useState } from "react";
 
 const ICONS = {
   LayoutDashboard, Calendar, Users, Wallet, Package, Heart,
-  FileText, Settings, Image,
+  FileText, Settings, Image, MessageSquare,
 };
 
 export function AdminSidebar() {

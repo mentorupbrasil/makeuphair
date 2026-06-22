@@ -18,6 +18,23 @@ export async function POST(request: Request) {
     const servico = await prisma.servico.findUnique({ where: { id: servicoId } });
     if (!servico) return NextResponse.json({ error: "Serviço não encontrado" }, { status: 404 });
 
+    const date = new Date(data + "T12:00:00");
+    const inicio = new Date(date);
+    inicio.setHours(0, 0, 0, 0);
+    const fim = new Date(date);
+    fim.setHours(23, 59, 59, 999);
+
+    const conflito = await prisma.agendamento.findFirst({
+      where: {
+        data: { gte: inicio, lte: fim },
+        horaInicio: hora,
+        status: { notIn: ["CANCELADO"] },
+      },
+    });
+    if (conflito) {
+      return NextResponse.json({ error: "Horário indisponível. Escolha outro." }, { status: 409 });
+    }
+
     let cliente = await prisma.cliente.findFirst({ where: { telefone } });
     if (!cliente) {
       cliente = await prisma.cliente.create({

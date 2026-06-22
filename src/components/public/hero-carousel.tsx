@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/public/logo";
+import { PublicNav } from "@/components/public/public-nav";
 import { OwnerLoginLink } from "@/components/public/site-chrome";
 import { BRAND, whatsappUrl } from "@/lib/brand";
 import { cn } from "@/lib/utils";
@@ -59,35 +60,18 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
       <div className="hero-gradient absolute inset-0" />
 
       <div className="relative z-10 flex h-full flex-col">
-        <header className="editorial-container flex items-center justify-between py-8">
+        <header className="editorial-container relative flex items-center justify-between py-8">
           <Logo variant="light" />
-          <nav className="hidden items-center gap-10 md:flex">
-            {[
-              { href: "/#trabalhos", label: "Trabalhos" },
-              { href: "/servicos", label: "Serviços" },
-              { href: "/#contato", label: "Contato" },
-            ].map((l) => (
-              <Link
-                key={l.href}
-                href={l.href}
-                className="text-[10px] uppercase tracking-[0.3em] text-ivory/80 transition hover:text-ivory"
-              >
-                {l.label}
-              </Link>
-            ))}
-          </nav>
-          <div className="flex items-center gap-3">
-            <OwnerLoginLink variant="light" className="hidden sm:inline-flex border-ivory/30 text-ivory/80 hover:border-ivory hover:text-ivory" />
-            <Link
-              href="/agendar"
-              className="border border-ivory/40 px-5 py-2.5 text-[10px] uppercase tracking-[0.25em] text-ivory transition hover:bg-ivory hover:text-ink"
-            >
-              Agendar
-            </Link>
+          <div className="flex items-center gap-2 sm:gap-3">
+            <OwnerLoginLink
+              variant="light"
+              className="hidden shrink-0 border-ivory/30 text-ivory/80 hover:border-ivory hover:text-ivory lg:inline-flex"
+            />
+            <PublicNav variant="light" />
           </div>
         </header>
 
-        <div className="editorial-container flex flex-1 flex-col justify-end pb-16 md:pb-24">
+        <div className="editorial-container flex flex-1 flex-col justify-end pb-12 md:pb-16">
           <p className="section-label text-gold-light">Imperatriz — MA</p>
           <h1 className="font-display mt-4 max-w-3xl text-5xl font-light leading-[1.05] text-ivory md:text-7xl lg:text-8xl">
             Beleza que<br />

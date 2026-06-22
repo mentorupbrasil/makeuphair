@@ -60,6 +60,7 @@ export const STATUS_ORCAMENTO_LABEL: Record<string, string> = {
 export const NAV_ADMIN = [
   { href: "/admin", label: "Dashboard", icon: "LayoutDashboard" },
   { href: "/admin/midias", label: "Mídias & Home", icon: "Image" },
+  { href: "/admin/depoimentos", label: "Depoimentos", icon: "MessageSquare" },
   { href: "/admin/agenda", label: "Agenda", icon: "Calendar" },
   { href: "/admin/orcamentos", label: "Orçamentos", icon: "FileText" },
   { href: "/admin/clientes", label: "Clientes", icon: "Users" },
@@ -71,7 +72,7 @@ export const NAV_ADMIN = [
 
 export const NAV_PUBLIC = [
   { href: "/", label: "Início" },
-  { href: "/#trabalhos", label: "Trabalhos" },
+  { href: "/portfolio", label: "Portfólio" },
   { href: "/servicos", label: "Serviços" },
   { href: "/agendar", label: "Agendar" },
 ] as const;

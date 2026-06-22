@@ -9,23 +9,22 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(
   ({ className, variant = "primary", size = "md", ...props }, ref) => {
     const variants = {
-      primary: "bg-brand-taupe-dark text-white hover:bg-brand-brown shadow-sm",
-      secondary: "bg-brand-bg-dark text-brand-champagne hover:bg-brand-brown",
-      outline:
-        "border border-brand-taupe text-brand-taupe-dark hover:bg-brand-cream/50",
-      ghost: "text-brand-taupe-dark hover:bg-brand-cream/40",
+      primary: "bg-ink text-ivory hover:bg-ink-soft",
+      secondary: "bg-gold text-ivory hover:bg-gold-light",
+      outline: "border border-black/15 text-ink hover:bg-ivory-muted",
+      ghost: "text-stone hover:bg-ivory-muted hover:text-ink",
       danger: "bg-red-600 text-white hover:bg-red-700",
     };
     const sizes = {
-      sm: "px-3 py-1.5 text-sm",
-      md: "px-4 py-2 text-sm",
-      lg: "px-6 py-3 text-base tracking-wide",
+      sm: "px-3 py-1.5 text-[10px] tracking-[0.15em]",
+      md: "px-4 py-2 text-[10px] tracking-[0.2em]",
+      lg: "px-6 py-3 text-[10px] tracking-[0.25em]",
     };
     return (
       <button
         ref={ref}
         className={cn(
-          "inline-flex items-center justify-center gap-2 rounded-sm font-medium uppercase tracking-wider transition-colors disabled:opacity-50",
+          "inline-flex items-center justify-center gap-2 uppercase transition disabled:opacity-50",
           variants[variant],
           sizes[size],
           className

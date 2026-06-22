@@ -16,8 +16,9 @@ export default async function ClientesPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-stone-900">Clientes</h1>
-      <p className="text-stone-500">CRM — cadastro e histórico de atendimentos</p>
+      <p className="section-label">Relacionamento</p>
+      <h1 className="font-display mt-2 text-3xl font-light">Clientes</h1>
+      <p className="mt-1 text-sm text-stone">CRM — cadastro e histórico de atendimentos</p>
 
       <div className="mt-6 space-y-4">
         {clientes.map((c) => {
@@ -30,8 +31,8 @@ export default async function ClientesPage() {
             <Card key={c.id}>
               <div className="flex flex-col gap-4 lg:flex-row lg:justify-between">
                 <div>
-                  <h2 className="text-lg font-semibold text-stone-900">{c.nome}</h2>
-                  <div className="mt-1 space-y-0.5 text-sm text-stone-500">
+                  <h2 className="font-display text-lg font-light text-ink">{c.nome}</h2>
+                  <div className="mt-1 space-y-0.5 text-sm text-stone">
                     <p>{c.telefone}</p>
                     {c.instagram && <p>{c.instagram}</p>}
                     {c.aniversario && <p>Aniversário: {formatDate(c.aniversario)}</p>}

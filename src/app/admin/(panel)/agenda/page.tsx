@@ -69,21 +69,21 @@ export default async function AgendaPage({
             (a) => format(a.data, "yyyy-MM-dd") === diaStr
           );
           return (
-            <div key={diaStr} className="min-h-[200px] rounded-xl border border-stone-200 bg-white p-3">
-              <p className="mb-2 text-center text-sm font-semibold text-stone-700">
+            <div key={diaStr} className="min-h-[160px] border border-black/5 bg-white p-3">
+              <p className="mb-2 text-center text-sm text-stone">
                 {format(dia, "EEE", { locale: ptBR })}
                 <br />
-                <span className="text-lg">{format(dia, "d")}</span>
+                <span className="font-display text-lg text-ink">{format(dia, "d")}</span>
               </p>
               <div className="space-y-2">
                 {doDia.map((a) => (
                   <div
                     key={a.id}
-                    className="rounded-sm border border-brand-cream bg-brand-cream/30 p-2 text-xs"
+                    className="border border-gold/20 bg-ivory-muted/50 p-2 text-xs"
                   >
-                    <p className="font-semibold text-stone-800">{a.horaInicio}</p>
-                    <p className="text-stone-600">{a.cliente.nome}</p>
-                    <p className="text-stone-500">{a.servico.nome}</p>
+                    <p className="font-medium text-ink">{a.horaInicio}</p>
+                    <p className="text-stone">{a.cliente.nome}</p>
+                    <p className="text-stone/80">{a.servico.nome}</p>
                     <Badge className={`mt-1 ${STATUS_AGENDAMENTO_COLOR[a.status]}`}>
                       {STATUS_AGENDAMENTO_LABEL[a.status]}
                     </Badge>
@@ -95,7 +95,7 @@ export default async function AgendaPage({
         })}
       </div>
 
-      <h2 className="mt-8 text-lg font-semibold text-stone-900">Todos os agendamentos da semana</h2>
+      <h2 className="mt-8 font-display text-lg font-light text-ink">Agendamentos da semana</h2>
       <div className="mt-4 space-y-3">
         {agendamentos.length === 0 && (
           <p className="text-stone-500">Nenhum agendamento nesta semana.</p>

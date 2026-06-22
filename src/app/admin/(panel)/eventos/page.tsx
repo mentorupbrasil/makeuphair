@@ -19,8 +19,9 @@ export default async function EventosPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-stone-900">Noivas / Eventos</h1>
-      <p className="text-stone-500">Fichas de eventos, pacotes e checklists</p>
+      <p className="section-label">Eventos</p>
+      <h1 className="font-display mt-2 text-3xl font-light">Noivas & eventos</h1>
+      <p className="mt-1 text-sm text-stone">Fichas de eventos, pacotes e checklists</p>
 
       <div className="mt-6 space-y-4">
         {eventos.map((e) => {

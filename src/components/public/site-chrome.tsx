@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Lock } from "lucide-react";
 import { Logo } from "@/components/public/logo";
+import { PublicNav } from "@/components/public/public-nav";
 import { BRAND, whatsappUrl } from "@/lib/brand";
 
 export function OwnerLoginLink({
@@ -21,7 +22,8 @@ export function OwnerLoginLink({
       className={`inline-flex items-center gap-2 border px-4 py-2 text-[10px] uppercase tracking-[0.2em] transition ${styles} ${className}`}
     >
       <Lock className="h-3.5 w-3.5" aria-hidden />
-      Área da proprietária
+      <span className="hidden sm:inline">Área da proprietária</span>
+      <span className="sm:hidden">Painel</span>
     </Link>
   );
 }
@@ -29,32 +31,11 @@ export function OwnerLoginLink({
 export function SiteHeader() {
   return (
     <header className="sticky top-0 z-50 border-b border-black/5 bg-ivory/95 backdrop-blur-md">
-      <div className="editorial-container flex items-center justify-between gap-4 py-5">
+      <div className="editorial-container relative flex items-center justify-between gap-4 py-5">
         <Logo />
-        <nav className="hidden items-center gap-10 md:flex">
-          {[
-            { href: "/", label: "Início" },
-            { href: "/#trabalhos", label: "Trabalhos" },
-            { href: "/servicos", label: "Serviços" },
-            { href: "/agendar", label: "Agendar" },
-          ].map((l) => (
-            <Link
-              key={l.href}
-              href={l.href}
-              className="text-[10px] uppercase tracking-[0.3em] text-stone transition hover:text-ink"
-            >
-              {l.label}
-            </Link>
-          ))}
-        </nav>
-        <div className="flex items-center gap-3">
-          <OwnerLoginLink className="hidden sm:inline-flex" />
-          <Link
-            href="/agendar"
-            className="bg-ink px-5 py-2.5 text-[10px] uppercase tracking-[0.25em] text-ivory transition hover:bg-ink-soft"
-          >
-            Agendar
-          </Link>
+        <div className="flex items-center gap-2 sm:gap-3">
+          <OwnerLoginLink className="hidden shrink-0 lg:inline-flex" />
+          <PublicNav variant="dark" />
         </div>
       </div>
     </header>
@@ -63,7 +44,7 @@ export function SiteHeader() {
 
 export function SiteFooter() {
   return (
-    <footer id="contato" className="border-t border-black/5 bg-ink text-ivory">
+    <footer className="border-t border-black/5 bg-ink text-ivory">
       <div className="editorial-container grid gap-12 py-16 md:grid-cols-2 lg:grid-cols-5">
         <div className="md:col-span-2 lg:col-span-2">
           <Logo variant="light" href="/" />

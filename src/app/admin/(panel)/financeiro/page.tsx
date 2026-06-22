@@ -35,8 +35,9 @@ export default async function FinanceiroPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-stone-900">Financeiro</h1>
-      <p className="text-stone-500">Controle de entradas, saídas e relatórios</p>
+      <p className="section-label">Financeiro</p>
+      <h1 className="font-display mt-2 text-3xl font-light">Financeiro</h1>
+      <p className="mt-1 text-sm text-stone">Controle de entradas, saídas e relatórios</p>
 
       <div className="mt-6 grid gap-4 sm:grid-cols-3">
         <Card>

@@ -3,9 +3,10 @@ import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { HeroCarousel } from "@/components/public/hero-carousel";
 import { SiteFooter } from "@/components/public/site-chrome";
-import { formatCurrency } from "@/lib/utils";
-import { CATEGORIA_SERVICO_LABEL } from "@/lib/constants";
-import { BRAND, whatsappUrl } from "@/lib/brand";
+import { ServicesShowcase } from "@/components/public/services-showcase";
+import { TestimonialsBand } from "@/components/public/testimonials-band";
+import { BookingCta } from "@/components/public/booking-cta";
+import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
@@ -16,8 +17,11 @@ export default async function HomePage() {
       orderBy: [{ destaqueHome: "desc" }, { ordem: "asc" }, { createdAt: "desc" }],
     }),
     prisma.servico.findMany({
-      where: { destaque: true, ativo: true },
+      where: { ativo: true, destaque: true },
       take: 3,
+    }).then(async (destaques) => {
+      if (destaques.length > 0) return destaques;
+      return prisma.servico.findMany({ where: { ativo: true }, take: 3, orderBy: { nome: "asc" } });
     }),
     prisma.depoimento.findMany({
       where: { ativo: true },
@@ -28,46 +32,63 @@ export default async function HomePage() {
   ]);
 
   const heroSlides = midias.filter((m) => m.destaqueHome);
-  const gallery = midias.filter((m) => !m.destaqueHome || midias.length <= 3);
+  const heroItems = heroSlides.length > 0 ? heroSlides : midias.slice(0, 5);
+  const heroIds = new Set(heroItems.map((m) => m.id));
+  const gallery = midias.filter((m) => !heroIds.has(m.id));
 
   return (
     <>
-      <HeroCarousel slides={heroSlides.length > 0 ? heroSlides : midias.slice(0, 5)} />
+      <HeroCarousel slides={heroItems} />
 
       {/* Sobre */}
-      <section className="border-b border-black/5 bg-ivory py-24 md:py-32">
-        <div className="editorial-container grid items-center gap-16 md:grid-cols-2">
-          <div>
-            <p className="section-label">Sobre</p>
-            <div className="divider-gold mt-4" />
-            <h2 className="font-display mt-8 text-4xl font-light leading-tight md:text-5xl">
-              {perfil?.nome || BRAND.name}
-            </h2>
-            <p className="mt-6 text-sm leading-relaxed text-stone md:text-base">
-              {perfil?.bio || BRAND.description}
-            </p>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            {[
-              { n: "500+", l: "Clientes atendidas" },
-              { n: "Noivas", l: "Especialidade" },
-              { n: "100%", l: "Dedicação" },
-              { n: "MA", l: "Imperatriz & região" },
-            ].map((s) => (
-              <div key={s.l} className="border border-black/5 p-6 text-center">
-                <p className="font-display text-2xl text-ink">{s.n}</p>
-                <p className="mt-1 text-[10px] uppercase tracking-[0.2em] text-stone">{s.l}</p>
-              </div>
-            ))}
+      <section className="border-b border-black/5 bg-ivory py-12 md:py-16">
+        <div className="editorial-container">
+          <div className="grid gap-10 md:grid-cols-12 md:gap-16">
+            <div className="md:col-span-4">
+              <p className="section-label">Sobre</p>
+              <h2 className="font-display mt-3 text-4xl font-light leading-[1.1] md:text-[2.75rem]">
+                {perfil?.nome || BRAND.name}
+              </h2>
+              <p className="mt-2 text-[10px] uppercase tracking-[0.3em] text-stone">
+                Makeup & Hair · Imperatriz, MA
+              </p>
+            </div>
+            <div className="md:col-span-8 md:border-l md:border-gold/25 md:pl-12">
+              <p className="font-display text-xl font-light italic leading-relaxed text-ink/90 md:text-2xl">
+                &ldquo;{perfil?.bio || BRAND.description}&rdquo;
+              </p>
+              <ul className="mt-8 flex flex-wrap gap-x-8 gap-y-3 border-t border-black/5 pt-6">
+                {[
+                  "Noivas & eventos",
+                  "Produção completa",
+                  "Atendimento personalizado",
+                ].map((item) => (
+                  <li
+                    key={item}
+                    className="flex items-center gap-2 text-[10px] uppercase tracking-[0.22em] text-stone"
+                  >
+                    <span className="h-px w-4 bg-gold" aria-hidden />
+                    {item}
+                  </li>
+                ))}
+              </ul>
+            </div>
           </div>
         </div>
       </section>
 
       {/* Trabalhos */}
-      <section id="trabalhos" className="bg-ivory-muted py-24 md:py-32">
+      <section id="trabalhos" className="bg-ivory-muted py-16 md:py-20">
         <div className="editorial-container">
           <p className="section-label">Portfólio</p>
-          <h2 className="font-display mt-4 text-4xl font-light md:text-5xl">Trabalhos recentes</h2>
+          <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+            <h2 className="font-display text-4xl font-light md:text-5xl">Trabalhos recentes</h2>
+            {midias.length > 0 && (
+              <Link href="/portfolio" className="text-[10px] uppercase tracking-[0.28em] text-stone transition hover:text-ink">
+                Ver portfólio completo →
+              </Link>
+            )}
+          </div>
           {gallery.length === 0 ? (
             <p className="mt-12 text-stone">
               Em breve novos trabalhos. A Bianca está preparando o portfólio.
@@ -98,80 +119,15 @@ export default async function HomePage() {
       </section>
 
       {/* Serviços */}
-      <section className="border-y border-black/5 bg-ivory py-24 md:py-32">
+      <section className="bg-ink py-14 text-ivory md:py-20">
         <div className="editorial-container">
-          <p className="section-label">Serviços</p>
-          <h2 className="font-display mt-4 text-4xl font-light">Experiências exclusivas</h2>
-          <div className="mt-12 divide-y divide-black/5">
-            {servicos.map((s) => (
-              <div key={s.id} className="grid gap-4 py-8 md:grid-cols-[1fr_auto] md:items-center">
-                <div>
-                  <p className="text-[10px] uppercase tracking-[0.25em] text-gold">
-                    {CATEGORIA_SERVICO_LABEL[s.categoria]}
-                  </p>
-                  <h3 className="font-display mt-2 text-2xl font-light">{s.nome}</h3>
-                  <p className="mt-2 max-w-lg text-sm text-stone">{s.descricao}</p>
-                </div>
-                <div className="text-right">
-                  <p className="font-display text-2xl">{formatCurrency(s.valorInicial)}</p>
-                  <p className="text-[10px] uppercase tracking-[0.2em] text-stone">{s.duracaoMin} min</p>
-                </div>
-              </div>
-            ))}
-          </div>
-          <Link
-            href="/servicos"
-            className="mt-8 inline-block border-b border-ink pb-1 text-[10px] uppercase tracking-[0.3em] text-ink"
-          >
-            Ver todos os serviços
-          </Link>
+          <ServicesShowcase servicos={servicos} variant="dark" />
         </div>
       </section>
 
-      {/* Depoimentos */}
-      {depoimentos.length > 0 && (
-        <section className="bg-ink py-24 text-ivory md:py-32">
-          <div className="editorial-container">
-            <p className="section-label text-gold-light">Depoimentos</p>
-            <div className="mt-12 grid gap-8 md:grid-cols-3">
-              {depoimentos.map((d) => (
-                <blockquote key={d.id} className="border-l border-gold/40 pl-6">
-                  <p className="font-display text-xl font-light italic leading-relaxed">
-                    &ldquo;{d.texto}&rdquo;
-                  </p>
-                  <footer className="mt-4 text-[10px] uppercase tracking-[0.25em] text-ivory/50">
-                    — {d.nome}
-                  </footer>
-                </blockquote>
-              ))}
-            </div>
-          </div>
-        </section>
-      )}
+      <TestimonialsBand depoimentos={depoimentos} />
 
-      {/* CTA */}
-      <section className="bg-ivory py-24 text-center md:py-32">
-        <div className="editorial-container max-w-2xl">
-          <h2 className="font-display text-4xl font-light md:text-5xl">Pronta para o seu momento?</h2>
-          <p className="mt-4 text-stone">Agende sua produção ou solicite um orçamento personalizado.</p>
-          <div className="mt-10 flex flex-wrap justify-center gap-4">
-            <Link
-              href="/agendar"
-              className="bg-ink px-10 py-4 text-[10px] uppercase tracking-[0.25em] text-ivory hover:bg-ink-soft"
-            >
-              Agendar horário
-            </Link>
-            <a
-              href={whatsappUrl()}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="border border-ink/20 px-10 py-4 text-[10px] uppercase tracking-[0.25em] text-ink hover:bg-ink hover:text-ivory"
-            >
-              WhatsApp
-            </a>
-          </div>
-        </div>
-      </section>
+      <BookingCta />
 
       <SiteFooter />
     </>

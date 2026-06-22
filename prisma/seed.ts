@@ -152,16 +152,10 @@ async function main() {
     if (!existing) await prisma.produto.create({ data: p });
   }
 
-  const depoimentos = [
-    { nome: "Carla M.", texto: "Fiquei linda no meu casamento! Profissional incrível.", estrelas: 5 },
-    { nome: "Juliana R.", texto: "Melhor maquiagem que já fiz. Super recomendo!", estrelas: 5 },
-    { nome: "Patricia L.", texto: "Atendimento impecável e resultado perfeito.", estrelas: 5 },
-  ];
-
-  for (const d of depoimentos) {
-    const existing = await prisma.depoimento.findFirst({ where: { nome: d.nome } });
-    if (!existing) await prisma.depoimento.create({ data: d });
-  }
+  // Depoimentos fictícios removidos — cadastre avaliações reais em /admin/depoimentos
+  await prisma.depoimento.deleteMany({
+    where: { nome: { in: ["Carla M.", "Juliana R.", "Patricia L."] } },
+  });
 
   const eventoExisting = await prisma.evento.findFirst({ where: { titulo: "Casamento Ana" } });
   if (!eventoExisting) {

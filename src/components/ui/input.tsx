@@ -1,18 +1,14 @@
 import { cn } from "@/lib/utils";
 import { InputHTMLAttributes, forwardRef } from "react";
 
+const fieldClass =
+  "w-full border border-black/10 bg-white px-3 py-2.5 text-sm text-ink placeholder:text-stone/60 focus:border-gold focus:outline-none focus:ring-1 focus:ring-gold/30";
+
 export const Input = forwardRef<
   HTMLInputElement,
   InputHTMLAttributes<HTMLInputElement>
 >(({ className, ...props }, ref) => (
-  <input
-    ref={ref}
-    className={cn(
-      "w-full rounded-sm border border-brand-cream bg-white px-3 py-2 text-sm text-foreground placeholder:text-brand-taupe focus:border-brand-taupe-dark focus:outline-none focus:ring-2 focus:ring-brand-cream",
-      className
-    )}
-    {...props}
-  />
+  <input ref={ref} className={cn(fieldClass, className)} {...props} />
 ));
 Input.displayName = "Input";
 
@@ -20,14 +16,7 @@ export const Textarea = forwardRef<
   HTMLTextAreaElement,
   React.TextareaHTMLAttributes<HTMLTextAreaElement>
 >(({ className, ...props }, ref) => (
-  <textarea
-    ref={ref}
-    className={cn(
-      "w-full rounded-sm border border-brand-cream bg-white px-3 py-2 text-sm text-foreground placeholder:text-brand-taupe focus:border-brand-taupe-dark focus:outline-none focus:ring-2 focus:ring-brand-cream",
-      className
-    )}
-    {...props}
-  />
+  <textarea ref={ref} className={cn(fieldClass, className)} {...props} />
 ));
 Textarea.displayName = "Textarea";
 
@@ -35,14 +24,7 @@ export const Select = forwardRef<
   HTMLSelectElement,
   React.SelectHTMLAttributes<HTMLSelectElement>
 >(({ className, children, ...props }, ref) => (
-  <select
-    ref={ref}
-    className={cn(
-      "w-full rounded-sm border border-brand-cream bg-white px-3 py-2 text-sm text-foreground focus:border-brand-taupe-dark focus:outline-none focus:ring-2 focus:ring-brand-cream",
-      className
-    )}
-    {...props}
-  >
+  <select ref={ref} className={cn(fieldClass, className)} {...props}>
     {children}
   </select>
 ));
@@ -58,7 +40,7 @@ export function Label({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-taupe-dark"
+      className="mb-1.5 block text-[10px] uppercase tracking-[0.2em] text-stone"
     >
       {children}
     </label>
