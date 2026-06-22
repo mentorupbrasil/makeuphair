@@ -1,0 +1,293 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// ─── Autenticação ───────────────────────────────────────────
+
+model Usuario {
+  id         String   @id @default(cuid())
+  nome       String
+  email      String   @unique
+  senhaHash  String
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+}
+
+// ─── Perfil / Configurações ─────────────────────────────────
+
+model Perfil {
+  id              String  @id @default(cuid())
+  nome            String
+  bio             String?
+  fotoUrl         String?
+  endereco        String?
+  telefone        String?
+  instagram       String?
+  facebook        String?
+  tiktok          String?
+  whatsapp        String?
+  // Agenda
+  diasDisponiveis String  @default("1,2,3,4,5,6") // 0=dom ... 6=sáb
+  horaInicio      String  @default("08:00")
+  horaFim         String  @default("18:00")
+  intervaloMin    Int     @default(15) // tempo entre clientes
+}
+
+// ─── Clientes (CRM) ─────────────────────────────────────────
+
+model Cliente {
+  id           String        @id @default(cuid())
+  nome         String
+  telefone     String
+  email        String?
+  instagram    String?
+  aniversario  DateTime?
+  preferencias String?       // JSON: { gosta: [], naoGosta: [] }
+  observacoes  String?
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  agendamentos Agendamento[]
+  receitas     Receita[]
+  eventos      Evento[]
+  orcamentos   Orcamento[]
+}
+
+// ─── Serviços ───────────────────────────────────────────────
+
+enum CategoriaServico {
+  MAQUIAGEM_SOCIAL
+  MAQUIAGEM_NOIVA
+  PENTEADO
+  PRODUCAO_COMPLETA
+  EVENTO
+  DOMICILIO
+}
+
+model Servico {
+  id           String           @id @default(cuid())
+  nome         String
+  descricao    String?
+  categoria    CategoriaServico
+  duracaoMin   Int              // minutos
+  valorInicial Float
+  destaque     Boolean          @default(false)
+  ativo        Boolean          @default(true)
+  fotos        ServicoFoto[]
+  agendamentos Agendamento[]
+  createdAt    DateTime         @default(now())
+  updatedAt    DateTime         @updatedAt
+}
+
+model ServicoFoto {
+  id        String  @id @default(cuid())
+  servicoId String
+  servico   Servico @relation(fields: [servicoId], references: [id], onDelete: Cascade)
+  url       String
+  ordem     Int     @default(0)
+}
+
+// ─── Agendamentos ───────────────────────────────────────────
+
+enum StatusAgendamento {
+  PENDENTE
+  CONFIRMADO
+  CANCELADO
+  REALIZADO
+  REMARCADO
+}
+
+model Agendamento {
+  id         String            @id @default(cuid())
+  clienteId  String
+  cliente    Cliente           @relation(fields: [clienteId], references: [id])
+  servicoId  String
+  servico    Servico           @relation(fields: [servicoId], references: [id])
+  data       DateTime
+  horaInicio String            // "15:00"
+  horaFim    String            // "17:00"
+  valor      Float
+  status     StatusAgendamento @default(PENDENTE)
+  observacao String?
+  receita    Receita?
+  createdAt  DateTime          @default(now())
+  updatedAt  DateTime          @updatedAt
+}
+
+// ─── Financeiro ─────────────────────────────────────────────
+
+enum FormaPagamento {
+  PIX
+  DINHEIRO
+  CARTAO_CREDITO
+  CARTAO_DEBITO
+  TRANSFERENCIA
+}
+
+model Receita {
+  id             String          @id @default(cuid())
+  agendamentoId  String?         @unique
+  agendamento    Agendamento?    @relation(fields: [agendamentoId], references: [id])
+  clienteId      String?
+  cliente        Cliente?        @relation(fields: [clienteId], references: [id])
+  descricao      String
+  valor          Float
+  formaPagamento FormaPagamento
+  data           DateTime        @default(now())
+  createdAt      DateTime        @default(now())
+}
+
+enum CategoriaDespesa {
+  PRODUTOS
+  BASE
+  BATOM
+  FIXADOR
+  SHAMPOO
+  SPRAY
+  EQUIPAMENTOS
+  SECADOR
+  CHAPINHA
+  PINCEIS
+  OPERACIONAL
+  TRANSPORTE
+  ALUGUEL
+  INTERNET
+  OUTROS
+}
+
+model Despesa {
+  id        String           @id @default(cuid())
+  categoria CategoriaDespesa
+  descricao String
+  valor     Float
+  data      DateTime         @default(now())
+  createdAt DateTime         @default(now())
+}
+
+// ─── Estoque ────────────────────────────────────────────────
+
+model Produto {
+  id            String                 @id @default(cuid())
+  nome          String
+  marca         String?
+  quantidade    Float
+  unidade       String                 @default("un")
+  validade      DateTime?
+  estoqueMinimo Float                  @default(1)
+  movimentacoes MovimentacaoEstoque[]
+  createdAt     DateTime               @default(now())
+  updatedAt     DateTime               @updatedAt
+}
+
+enum TipoMovimentacao {
+  COMPRA
+  USO
+  AJUSTE
+}
+
+model MovimentacaoEstoque {
+  id         String           @id @default(cuid())
+  produtoId  String
+  produto    Produto          @relation(fields: [produtoId], references: [id], onDelete: Cascade)
+  tipo       TipoMovimentacao
+  quantidade Float
+  observacao String?
+  data       DateTime         @default(now())
+}
+
+// ─── Noivas / Eventos ───────────────────────────────────────
+
+enum StatusEvento {
+  ORCAMENTO
+  CONFIRMADO
+  CONCLUIDO
+  CANCELADO
+}
+
+model Evento {
+  id          String               @id @default(cuid())
+  clienteId   String
+  cliente     Cliente              @relation(fields: [clienteId], references: [id])
+  titulo      String               // ex: "Casamento Ana"
+  data        DateTime
+  local       String?
+  pacote      String?
+  valorTotal  Float
+  valorEntrada Float               @default(0)
+  status      StatusEvento         @default(ORCAMENTO)
+  observacoes String?
+  checklist   EventoChecklistItem[]
+  createdAt   DateTime             @default(now())
+  updatedAt   DateTime             @updatedAt
+}
+
+model EventoChecklistItem {
+  id       String  @id @default(cuid())
+  eventoId String
+  evento   Evento  @relation(fields: [eventoId], references: [id], onDelete: Cascade)
+  titulo   String
+  concluido Boolean @default(false)
+  ordem    Int     @default(0)
+}
+
+// ─── Orçamentos ─────────────────────────────────────────────
+
+enum StatusOrcamento {
+  RASCUNHO
+  ENVIADO
+  ACEITO
+  RECUSADO
+  EXPIRADO
+}
+
+model Orcamento {
+  id          String          @id @default(cuid())
+  clienteId   String?
+  cliente     Cliente?        @relation(fields: [clienteId], references: [id])
+  nomeCliente String
+  evento      String?
+  servicos    String          // descrição dos serviços
+  valor       Float
+  validade    DateTime
+  status      StatusOrcamento @default(RASCUNHO)
+  observacoes String?
+  createdAt   DateTime        @default(now())
+  updatedAt   DateTime        @updatedAt
+}
+
+// ─── Site público ───────────────────────────────────────────
+
+enum CategoriaPortfolio {
+  ANTES_DEPOIS
+  MAQUIAGEM
+  PENTEADO
+  NOIVA
+  EVENTO
+}
+
+model PortfolioItem {
+  id        String             @id @default(cuid())
+  titulo    String?
+  categoria CategoriaPortfolio
+  urlAntes  String?
+  urlDepois String?
+  urlFoto   String?
+  ordem     Int                @default(0)
+  ativo     Boolean            @default(true)
+  createdAt DateTime           @default(now())
+}
+
+model Depoimento {
+  id        String   @id @default(cuid())
+  nome      String
+  texto     String
+  fotoUrl   String?
+  estrelas  Int      @default(5)
+  ativo     Boolean  @default(true)
+  ordem     Int      @default(0)
+  createdAt DateTime @default(now())
+}
