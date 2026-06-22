@@ -1,8 +1,7 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
-import { unlink } from "fs/promises";
-import path from "path";
+import { deleteUpload } from "@/lib/upload";
 
 export async function PATCH(
   request: Request,
@@ -28,12 +27,7 @@ export async function DELETE(
   const midia = await prisma.midia.findUnique({ where: { id } });
   if (!midia) return NextResponse.json({ error: "Not found" }, { status: 404 });
 
-  if (midia.url.startsWith("/uploads/")) {
-    try {
-      await unlink(path.join(process.cwd(), "public", midia.url));
-    } catch { /* file may not exist */ }
-  }
-
+  await deleteUpload(midia.url);
   await prisma.midia.delete({ where: { id } });
   return NextResponse.json({ ok: true });
 }
