@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "@/lib/prisma";
+import { prisma, isReadonlyDatabaseError } from "@/lib/prisma";
 import { getSession } from "@/lib/auth";
 import { saveUpload } from "@/lib/upload";
 
@@ -31,6 +31,15 @@ export async function POST(request: Request) {
     });
     return NextResponse.json(midia, { status: 201 });
   } catch (e) {
+    if (isReadonlyDatabaseError(e)) {
+      return NextResponse.json(
+        {
+          error:
+            "Banco de dados indisponível. Configure DATABASE_URL do Neon na Vercel (postgresql://...).",
+        },
+        { status: 503 }
+      );
+    }
     return NextResponse.json(
       { error: e instanceof Error ? e.message : "Erro no upload" },
       { status: 400 }

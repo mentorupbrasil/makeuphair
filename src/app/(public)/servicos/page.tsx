@@ -2,6 +2,8 @@ import { prisma } from "@/lib/prisma";
 import { SiteHeader, SiteFooter } from "@/components/public/site-chrome";
 import { ServicesShowcase } from "@/components/public/services-showcase";
 
+export const dynamic = "force-dynamic";
+
 export default async function ServicosPage() {
   const servicos = await prisma.servico.findMany({
     where: { ativo: true },
