@@ -1,15 +1,8 @@
 import { PrismaClient } from "@/generated/prisma/client";
 import { PrismaNeon } from "@prisma/adapter-neon";
+import { normalizeNeonUrl } from "@/lib/db-connection";
 
 const globalForPrisma = globalThis as unknown as { prisma: PrismaClient };
-
-/** Neon serverless driver não aceita sslmode na URL — removemos antes de conectar. */
-function normalizeNeonUrl(connectionString: string) {
-  const url = new URL(connectionString);
-  url.searchParams.delete("sslmode");
-  url.searchParams.delete("channel_binding");
-  return url.toString();
-}
 
 function createPrismaClient() {
   const raw = process.env.DATABASE_URL;

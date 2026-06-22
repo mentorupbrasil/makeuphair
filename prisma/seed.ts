@@ -1,11 +1,15 @@
 import "dotenv/config";
 import { PrismaClient } from "../src/generated/prisma/client";
-import { PrismaLibSql } from "@prisma/adapter-libsql";
+import { PrismaNeon } from "@prisma/adapter-neon";
+import { normalizeNeonUrl } from "../src/lib/db-connection";
 import bcrypt from "bcryptjs";
 
-const adapter = new PrismaLibSql({
-  url: process.env.DATABASE_URL || "file:./dev.db",
-});
+const url = process.env.DATABASE_URL;
+if (!url) {
+  throw new Error("DATABASE_URL não definida. Cole a connection string do Neon no .env");
+}
+
+const adapter = new PrismaNeon({ connectionString: normalizeNeonUrl(url) });
 const prisma = new PrismaClient({ adapter });
 
 async function main() {
@@ -13,7 +17,7 @@ async function main() {
 
   await prisma.usuario.upsert({
     where: { email: "admin@makeuphair.com" },
-    update: {},
+    update: { senhaHash },
     create: {
       nome: "Administradora",
       email: "admin@makeuphair.com",
