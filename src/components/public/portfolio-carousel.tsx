@@ -42,7 +42,7 @@ function PortfolioPhotos({
   return (
     <div
       className={cn(
-        "grid grid-cols-3 gap-1.5 sm:gap-2",
+        "grid w-full grid-cols-3 gap-1.5 sm:gap-2",
         size === "compact" ? "max-w-[min(100%,720px)]" : "max-w-[min(100%,840px)]"
       )}
     >
@@ -173,20 +173,13 @@ export function PortfolioCarousel({ trabalhos, limit }: { trabalhos: TrabalhoIte
 
 export function PortfolioGrid({ trabalhos }: { trabalhos: TrabalhoItem[] }) {
   return (
-    <div className="mt-14 space-y-14 md:mt-16 md:space-y-20">
-      {trabalhos.map((t, index) => {
+    <div className="mt-12 space-y-12 md:mt-14">
+      {trabalhos.map((t) => {
         const label = instagramLabel(t.instagram, t.clienteNome);
-        const alignRight = index % 2 === 1;
 
         return (
-          <article
-            key={t.id}
-            className={cn(
-              "flex flex-col gap-4",
-              alignRight ? "md:items-end md:text-right" : "md:items-start"
-            )}
-          >
-            <InstagramCaption handle={t.instagram} nome={t.clienteNome} />
+          <article key={t.id} className="mx-auto w-full max-w-3xl">
+            <InstagramCaption handle={t.instagram} nome={t.clienteNome} className="mb-4 block" />
             <PortfolioPhotos fotos={t.fotos} alt={label} size="page" />
           </article>
         );
