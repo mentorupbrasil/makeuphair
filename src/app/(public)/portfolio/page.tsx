@@ -1,56 +1,45 @@
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
-import { CATEGORIA_PORTFOLIO_LABEL } from "@/lib/constants";
-import { Badge } from "@/components/ui/badge";
-import { ImageIcon } from "lucide-react";
+import { SiteHeader, SiteFooter } from "@/components/public/site-chrome";
+
+export const dynamic = "force-dynamic";
 
 export default async function PortfolioPage() {
-  const items = await prisma.portfolioItem.findMany({
+  const midias = await prisma.midia.findMany({
     where: { ativo: true },
-    orderBy: { ordem: "asc" },
+    orderBy: [{ ordem: "asc" }, { createdAt: "desc" }],
   });
 
-  const categorias = Object.keys(CATEGORIA_PORTFOLIO_LABEL);
-
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <h1 className="font-serif text-4xl text-brand-brown">Portfólio</h1>
-      <p className="mt-2 text-brand-taupe-dark">
-        Galeria de trabalhos — maquiagem, penteados, noivas e eventos.
-      </p>
-
-      {items.length === 0 ? (
-        <div className="mt-16 text-center">
-          <ImageIcon className="mx-auto h-12 w-12 text-brand-taupe" />
-          <p className="mt-4 text-brand-taupe-dark">
-            Portfólio em construção. Em breve novas fotos!
+    <>
+      <SiteHeader />
+      <main className="py-24 md:py-32">
+        <div className="editorial-container">
+          <p className="section-label">Portfólio</p>
+          <h1 className="font-display mt-4 text-5xl font-light">Trabalhos selecionados</h1>
+          <p className="mt-4 max-w-xl text-sm leading-relaxed text-stone">
+            Maquiagem, penteados, noivas e produções para eventos — cada look pensado para realçar sua beleza.
           </p>
-          <div className="mt-8 flex flex-wrap justify-center gap-2">
-            {categorias.map((cat) => (
-              <Badge key={cat} className="bg-brand-cream text-brand-brown">
-                {CATEGORIA_PORTFOLIO_LABEL[cat]}
-              </Badge>
-            ))}
-          </div>
-        </div>
-      ) : (
-        <div className="mt-10 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((item) => (
-            <div
-              key={item.id}
-              className="aspect-square overflow-hidden rounded-sm bg-brand-cream/50"
-            >
-              <div className="flex h-full flex-col items-center justify-center p-4">
-                <Badge className="bg-white/80 text-brand-brown">
-                  {CATEGORIA_PORTFOLIO_LABEL[item.categoria]}
-                </Badge>
-                {item.titulo && (
-                  <p className="mt-2 text-sm font-medium text-brand-taupe-dark">{item.titulo}</p>
-                )}
-              </div>
+
+          {midias.length === 0 ? (
+            <p className="mt-16 text-stone">Galeria em atualização. Em breve novas imagens.</p>
+          ) : (
+            <div className="mt-16 columns-1 gap-4 sm:columns-2 lg:columns-3">
+              {midias.map((m) => (
+                <div key={m.id} className="mb-4 break-inside-avoid overflow-hidden bg-ivory-muted">
+                  {m.tipo === "VIDEO" ? (
+                    <video src={m.url} controls className="w-full" />
+                  ) : (
+                    <Image src={m.url} alt={m.titulo || "Trabalho"} width={800} height={1000} className="w-full object-cover" />
+                  )}
+                  {m.titulo && <p className="p-4 text-[10px] uppercase tracking-[0.2em] text-stone">{m.titulo}</p>}
+                </div>
+              ))}
             </div>
-          ))}
+          )}
         </div>
-      )}
-    </div>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

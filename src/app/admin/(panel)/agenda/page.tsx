@@ -6,6 +6,7 @@ import {
   STATUS_AGENDAMENTO_COLOR,
   STATUS_AGENDAMENTO_LABEL,
 } from "@/lib/constants";
+import { NovoAgendamentoForm } from "@/components/admin/novo-agendamento-form";
 import { AgendaActions } from "@/components/admin/agenda-actions";
 import { startOfWeek, endOfWeek, addWeeks, subWeeks, format } from "date-fns";
 import { ptBR } from "date-fns/locale";
@@ -28,6 +29,8 @@ export default async function AgendaPage({
     orderBy: [{ data: "asc" }, { horaInicio: "asc" }],
   });
 
+  const servicos = await prisma.servico.findMany({ where: { ativo: true }, orderBy: { nome: "asc" } });
+
   const dias = Array.from({ length: 7 }, (_, i) => {
     const d = new Date(inicio);
     d.setDate(d.getDate() + i);
@@ -39,28 +42,24 @@ export default async function AgendaPage({
 
   return (
     <div>
-      <div className="flex items-center justify-between">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
-          <h1 className="text-2xl font-bold text-stone-900">Agenda</h1>
-          <p className="text-stone-500">Calendário semanal de atendimentos</p>
+          <p className="section-label">Operação</p>
+          <h1 className="font-display mt-2 text-3xl font-light">Agenda</h1>
+          <p className="mt-1 text-sm text-stone">Controle completo dos atendimentos</p>
         </div>
-        <div className="flex items-center gap-2">
-          <Link
-            href={`/admin/agenda?semana=${prevWeek}`}
-            className="rounded-lg border border-stone-200 p-2 hover:bg-white"
-          >
-            <ChevronLeft className="h-4 w-4" />
-          </Link>
-          <span className="text-sm font-medium text-stone-700">
-            {format(inicio, "d MMM", { locale: ptBR })} — {format(fim, "d MMM yyyy", { locale: ptBR })}
-          </span>
-          <Link
-            href={`/admin/agenda?semana=${nextWeek}`}
-            className="rounded-lg border border-stone-200 p-2 hover:bg-white"
-          >
-            <ChevronRight className="h-4 w-4" />
-          </Link>
-        </div>
+        <NovoAgendamentoForm servicos={servicos} />
+      </div>
+      <div className="mt-6 flex items-center justify-end gap-2">
+        <Link href={`/admin/agenda?semana=${prevWeek}`} className="border border-black/10 p-2 hover:bg-ivory-muted">
+          <ChevronLeft className="h-4 w-4" />
+        </Link>
+        <span className="text-sm text-stone">
+          {format(inicio, "d MMM", { locale: ptBR })} — {format(fim, "d MMM yyyy", { locale: ptBR })}
+        </span>
+        <Link href={`/admin/agenda?semana=${nextWeek}`} className="border border-black/10 p-2 hover:bg-ivory-muted">
+          <ChevronRight className="h-4 w-4" />
+        </Link>
       </div>
 
       <div className="mt-6 grid gap-4 lg:grid-cols-7">

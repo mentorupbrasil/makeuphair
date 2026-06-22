@@ -291,3 +291,21 @@ model Depoimento {
   ordem     Int      @default(0)
   createdAt DateTime @default(now())
 }
+
+// ─── Mídia (Home / Portfólio) ───────────────────────────────
+
+enum TipoMidia {
+  FOTO
+  VIDEO
+}
+
+model Midia {
+  id           String    @id @default(cuid())
+  titulo       String?
+  url          String
+  tipo         TipoMidia @default(FOTO)
+  destaqueHome Boolean   @default(false)
+  ordem        Int       @default(0)
+  ativo        Boolean   @default(true)
+  createdAt    DateTime  @default(now())
+}

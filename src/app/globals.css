@@ -1,61 +1,77 @@
 @import "tailwindcss";
 
 :root {
-  --background: #faf8f5;
-  --foreground: #1a1a1a;
-  --brand-cream: #e6d7c8;
-  --brand-taupe: #c3b19b;
-  --brand-taupe-dark: #7f654c;
-  --brand-brown: #663200;
-  --brand-camel: #cfa680;
-  --brand-champagne: #d2c0ab;
-  --brand-bg-dark: #846c5b;
+  --ink: #0a0a0a;
+  --ink-soft: #1a1a1a;
+  --ivory: #faf8f5;
+  --ivory-muted: #f0ebe4;
+  --gold: #b8956b;
+  --gold-light: #d4bc96;
+  --stone: #6b6560;
+  --line: rgba(10, 10, 10, 0.08);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --color-brand-cream: var(--brand-cream);
-  --color-brand-taupe: var(--brand-taupe);
-  --color-brand-taupe-dark: var(--brand-taupe-dark);
-  --color-brand-brown: var(--brand-brown);
-  --color-brand-camel: var(--brand-camel);
-  --color-brand-champagne: var(--brand-champagne);
-  --color-brand-bg-dark: var(--brand-bg-dark);
-  --font-sans: var(--font-montserrat);
-  --font-serif: var(--font-playfair);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-ivory: var(--ivory);
+  --color-ivory-muted: var(--ivory-muted);
+  --color-gold: var(--gold);
+  --color-gold-light: var(--gold-light);
+  --color-stone: var(--stone);
+  --font-display: var(--font-cormorant);
+  --font-body: var(--font-inter);
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: var(--font-sans), system-ui, sans-serif;
+  background: var(--ivory);
+  color: var(--ink);
+  font-family: var(--font-body), system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
 }
 
-.font-serif {
-  font-family: var(--font-serif), Georgia, serif;
+.font-display {
+  font-family: var(--font-display), Georgia, serif;
 }
 
-.gradient-hero {
+::selection {
+  background: var(--gold);
+  color: white;
+}
+
+.editorial-container {
+  @apply mx-auto w-full max-w-7xl px-6 md:px-10;
+}
+
+.section-label {
+  @apply text-[10px] font-medium uppercase tracking-[0.35em] text-gold;
+}
+
+.divider-gold {
+  @apply h-px w-12 bg-gold;
+}
+
+.hero-gradient {
   background: linear-gradient(
-    135deg,
-    var(--brand-cream) 0%,
-    #faf8f5 40%,
-    var(--brand-taupe) 100%
+    to bottom,
+    rgba(10, 10, 10, 0.1) 0%,
+    rgba(10, 10, 10, 0.5) 55%,
+    rgba(10, 10, 10, 0.85) 100%
   );
 }
 
-.pattern-bg {
-  background-color: var(--brand-taupe);
-  background-image: url("/brand/pattern.png");
-  background-size: 280px;
-  background-repeat: repeat;
+.admin-shell {
+  @apply min-h-screen bg-ivory-muted;
 }
 
-.bar-fill {
-  @apply h-3 rounded-full bg-brand-taupe-dark transition-all;
-}
-
-.bar-bg {
-  @apply h-3 rounded-full bg-brand-cream;
+.admin-card {
+  @apply border border-black/5 bg-white;
 }

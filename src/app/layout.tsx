@@ -1,37 +1,29 @@
 import type { Metadata } from "next";
-import { Montserrat, Playfair_Display } from "next/font/google";
+import { Cormorant_Garamond, Inter } from "next/font/google";
 import { BRAND } from "@/lib/brand";
 import "./globals.css";
 
-const montserrat = Montserrat({
-  variable: "--font-montserrat",
+const cormorant = Cormorant_Garamond({
+  variable: "--font-cormorant",
   subsets: ["latin"],
   weight: ["300", "400", "500", "600"],
 });
 
-const playfair = Playfair_Display({
-  variable: "--font-playfair",
+const inter = Inter({
+  variable: "--font-inter",
   subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
 });
 
 export const metadata: Metadata = {
   title: `${BRAND.name} — ${BRAND.tagline}`,
   description: BRAND.description,
-  icons: {
-    icon: "/brand/monogram.png",
-    apple: "/brand/monogram.png",
-  },
 };
 
 export default function RootLayout({
   children,
 }: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html
-      lang="pt-BR"
-      className={`${montserrat.variable} ${playfair.variable} h-full antialiased`}
-    >
+    <html lang="pt-BR" className={`${cormorant.variable} ${inter.variable} h-full`}>
       <body className="min-h-full">{children}</body>
     </html>
   );

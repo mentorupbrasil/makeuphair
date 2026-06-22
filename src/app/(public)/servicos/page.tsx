@@ -1,8 +1,8 @@
+import Link from "next/link";
 import { prisma } from "@/lib/prisma";
-import { Card } from "@/components/ui/card";
+import { SiteHeader, SiteFooter } from "@/components/public/site-chrome";
 import { formatCurrency } from "@/lib/utils";
 import { CATEGORIA_SERVICO_LABEL } from "@/lib/constants";
-import { Clock } from "lucide-react";
 
 export default async function ServicosPage() {
   const servicos = await prisma.servico.findMany({
@@ -11,31 +11,36 @@ export default async function ServicosPage() {
   });
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-12">
-      <h1 className="font-serif text-4xl text-brand-brown">Serviços</h1>
-      <p className="mt-2 text-brand-taupe-dark">
-        Conheça todos os serviços disponíveis e seus valores iniciais.
-      </p>
-      <div className="mt-10 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-        {servicos.map((s) => (
-          <Card key={s.id}>
-            <p className="text-xs font-medium uppercase tracking-wider text-brand-camel">
-              {CATEGORIA_SERVICO_LABEL[s.categoria]}
-            </p>
-            <h2 className="mt-1 font-serif text-xl text-brand-brown">{s.nome}</h2>
-            <p className="mt-2 text-sm text-brand-taupe-dark">{s.descricao}</p>
-            <div className="mt-4 flex items-center justify-between border-t border-brand-cream pt-4">
-              <span className="flex items-center gap-1 text-sm text-brand-taupe">
-                <Clock className="h-4 w-4" />
-                {s.duracaoMin} min
-              </span>
-              <span className="font-medium text-brand-brown">
-                a partir de {formatCurrency(s.valorInicial)}
-              </span>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
+    <>
+      <SiteHeader />
+      <main className="py-24 md:py-32">
+        <div className="editorial-container">
+          <p className="section-label">Serviços</p>
+          <h1 className="font-display mt-4 text-5xl font-light">Menu de experiências</h1>
+          <div className="mt-16 divide-y divide-black/5">
+            {servicos.map((s) => (
+              <div key={s.id} className="grid gap-6 py-10 md:grid-cols-[1fr_auto] md:items-end">
+                <div>
+                  <p className="text-[10px] uppercase tracking-[0.3em] text-gold">
+                    {CATEGORIA_SERVICO_LABEL[s.categoria]}
+                  </p>
+                  <h2 className="font-display mt-3 text-3xl font-light">{s.nome}</h2>
+                  <p className="mt-3 max-w-xl text-sm leading-relaxed text-stone">{s.descricao}</p>
+                  <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-stone">{s.duracaoMin} minutos</p>
+                </div>
+                <p className="font-display text-3xl">{formatCurrency(s.valorInicial)}</p>
+              </div>
+            ))}
+          </div>
+          <Link
+            href="/agendar"
+            className="mt-12 inline-block bg-ink px-10 py-4 text-[10px] uppercase tracking-[0.25em] text-ivory"
+          >
+            Agendar horário
+          </Link>
+        </div>
+      </main>
+      <SiteFooter />
+    </>
   );
 }

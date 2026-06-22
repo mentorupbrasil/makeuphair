@@ -5,6 +5,7 @@ const nextConfig: NextConfig = {
     "/*": ["./dev.db"],
     "/api/**/*": ["./dev.db"],
     "/admin/**/*": ["./dev.db"],
+    "/uploads/**/*": ["./public/uploads/**/*"],
   },
 };
 

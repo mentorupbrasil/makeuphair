@@ -64,10 +64,11 @@ export default async function DashboardPage() {
 
   return (
     <div>
-      <h1 className="text-2xl font-bold text-stone-900">Dashboard</h1>
-      <p className="text-stone-500">Resumo do seu negócio</p>
+      <h1 className="section-label">Visão geral</h1>
+      <h2 className="font-display mt-2 text-3xl font-light">Dashboard</h2>
+      <p className="mt-1 text-sm text-stone">Resumo do seu negócio</p>
 
-      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-stone-400">Hoje</h2>
+      <h3 className="mt-10 text-[10px] uppercase tracking-[0.25em] text-stone">Hoje</h3>
       <div className="mt-3 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
         <StatCard
           label="Atendimentos"
@@ -93,7 +94,7 @@ export default async function DashboardPage() {
         />
       </div>
 
-      <h2 className="mt-8 text-sm font-semibold uppercase tracking-wide text-stone-400">Mês</h2>
+      <h3 className="mt-10 text-[10px] uppercase tracking-[0.25em] text-stone">Mês</h3>
       <div className="mt-3 grid gap-4 sm:grid-cols-3">
         <StatCard
           label="Receita"

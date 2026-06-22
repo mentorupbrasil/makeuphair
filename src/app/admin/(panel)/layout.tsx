@@ -6,9 +6,9 @@ export default function PanelLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex min-h-screen bg-brand-cream/20">
+    <div className="admin-shell flex min-h-screen">
       <AdminSidebar />
-      <main className="flex-1 overflow-auto p-6 pt-16 lg:p-8 lg:pt-6">
+      <main className="flex-1 overflow-auto p-6 pt-16 lg:p-10 lg:pt-10">
         {children}
       </main>
     </div>

@@ -2,11 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
-import Image from "next/image";
-import { Button } from "@/components/ui/button";
-import { Card } from "@/components/ui/card";
-import { FormField, Input } from "@/components/ui/input";
-import { BRAND } from "@/lib/brand";
+import { Logo } from "@/components/public/logo";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -21,10 +17,7 @@ export default function LoginPage() {
     const res = await fetch("/api/auth/login", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        email: form.get("email"),
-        senha: form.get("senha"),
-      }),
+      body: JSON.stringify({ email: form.get("email"), senha: form.get("senha") }),
     });
     setLoading(false);
     if (res.ok) {
@@ -37,33 +30,33 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-bg-dark p-4">
-      <Card className="w-full max-w-md border-brand-cream/20">
-        <div className="mb-8 flex flex-col items-center">
-          <Image
-            src={BRAND.assets.logoDark}
-            alt={BRAND.fullName}
-            width={220}
-            height={220}
-            className="h-36 w-auto object-contain"
-          />
-          <p className="mt-3 text-xs uppercase tracking-widest text-brand-taupe">
-            Painel administrativo
-          </p>
+    <div className="flex min-h-screen items-center justify-center bg-ivory-muted p-6">
+      <div className="w-full max-w-md border border-black/5 bg-white p-10">
+        <div className="flex justify-center">
+          <Logo href="" />
         </div>
-        <form onSubmit={handleSubmit} className="space-y-4">
-          <FormField label="E-mail" htmlFor="email">
-            <Input id="email" name="email" type="email" required placeholder="seu@email.com" />
-          </FormField>
-          <FormField label="Senha" htmlFor="senha">
-            <Input id="senha" name="senha" type="password" required placeholder="••••••••" />
-          </FormField>
+        <p className="mt-6 text-center text-[10px] uppercase tracking-[0.3em] text-stone">
+          Painel administrativo
+        </p>
+        <form onSubmit={handleSubmit} className="mt-8 space-y-4">
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.2em] text-stone">E-mail</label>
+            <input name="email" type="email" required className="mt-1 w-full border border-black/10 p-3 text-sm" />
+          </div>
+          <div>
+            <label className="text-[10px] uppercase tracking-[0.2em] text-stone">Senha</label>
+            <input name="senha" type="password" required className="mt-1 w-full border border-black/10 p-3 text-sm" />
+          </div>
           {error && <p className="text-sm text-red-600">{error}</p>}
-          <Button type="submit" className="w-full" disabled={loading}>
+          <button
+            type="submit"
+            disabled={loading}
+            className="w-full bg-ink py-3.5 text-[10px] uppercase tracking-[0.25em] text-ivory disabled:opacity-50"
+          >
             {loading ? "Entrando..." : "Entrar"}
-          </Button>
+          </button>
         </form>
-      </Card>
+      </div>
     </div>
   );
 }
