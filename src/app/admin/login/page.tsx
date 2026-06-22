@@ -38,6 +38,9 @@ export default function LoginPage() {
         <p className="mt-6 text-center text-[10px] uppercase tracking-[0.3em] text-stone">
           Painel administrativo
         </p>
+        <p className="mt-2 text-center text-xs text-stone/80">
+          Bianca, use seu e-mail e senha para gerenciar o site.
+        </p>
         <form onSubmit={handleSubmit} className="mt-8 space-y-4">
           <div>
             <label className="text-[10px] uppercase tracking-[0.2em] text-stone">E-mail</label>

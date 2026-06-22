@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { Logo } from "@/components/public/logo";
+import { OwnerLoginLink } from "@/components/public/site-chrome";
 import { BRAND, whatsappUrl } from "@/lib/brand";
 import { cn } from "@/lib/utils";
 
@@ -75,12 +76,15 @@ export function HeroCarousel({ slides }: { slides: Slide[] }) {
               </Link>
             ))}
           </nav>
-          <Link
-            href="/agendar"
-            className="border border-ivory/40 px-5 py-2.5 text-[10px] uppercase tracking-[0.25em] text-ivory transition hover:bg-ivory hover:text-ink"
-          >
-            Agendar
-          </Link>
+          <div className="flex items-center gap-3">
+            <OwnerLoginLink variant="light" className="hidden sm:inline-flex border-ivory/30 text-ivory/80 hover:border-ivory hover:text-ivory" />
+            <Link
+              href="/agendar"
+              className="border border-ivory/40 px-5 py-2.5 text-[10px] uppercase tracking-[0.25em] text-ivory transition hover:bg-ivory hover:text-ink"
+            >
+              Agendar
+            </Link>
+          </div>
         </header>
 
         <div className="editorial-container flex flex-1 flex-col justify-end pb-16 md:pb-24">
