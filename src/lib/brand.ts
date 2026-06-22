@@ -26,11 +26,15 @@ export const BRAND = {
     white: "#FFFFFF",
   },
   assets: {
-    logoPrimary: "/brand/logo-primary.png",
     logoHorizontal: "/brand/logo-horizontal.png",
+    logoHorizontalDark: "/brand/logo-horizontal-dark.png",
+    logoPrimary: "/brand/logo-primary.png",
     logoLight: "/brand/logo-light.png",
-    logoDarkBg: "/brand/logo-dark-bg.png",
+    logoDark: "/brand/logo-dark.png",
+    logoMetallic: "/brand/logo-metallic.png",
     monogram: "/brand/monogram.png",
+    seal: "/brand/seal.png",
+    sealDark: "/brand/seal-dark.png",
     pattern: "/brand/pattern.png",
   },
 } as const;

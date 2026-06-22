@@ -52,8 +52,8 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-white/60 shadow-xl backdrop-blur-sm">
-            <div className="pattern-bg absolute inset-0 opacity-20" />
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-brand-cream/40 shadow-xl">
+            <div className="pattern-bg absolute inset-0 opacity-15" />
             <BrandLogo variant="stacked" className="relative z-10" />
           </div>
         </div>

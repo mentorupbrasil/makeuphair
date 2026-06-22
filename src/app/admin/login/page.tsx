@@ -41,11 +41,11 @@ export default function LoginPage() {
       <Card className="w-full max-w-md border-brand-cream/20">
         <div className="mb-8 flex flex-col items-center">
           <Image
-            src={BRAND.assets.logoPrimary}
+            src={BRAND.assets.logoDark}
             alt={BRAND.fullName}
-            width={180}
-            height={180}
-            className="h-32 w-auto object-contain"
+            width={220}
+            height={220}
+            className="h-36 w-auto object-contain"
           />
           <p className="mt-3 text-xs uppercase tracking-widest text-brand-taupe">
             Painel administrativo
