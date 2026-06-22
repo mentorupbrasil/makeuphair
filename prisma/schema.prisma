@@ -309,3 +309,25 @@ model Midia {
   ativo        Boolean   @default(true)
   createdAt    DateTime  @default(now())
 }
+
+// ─── Portfólio por cliente (2 fotos + @) ────────────────────
+
+model Trabalho {
+  id           String         @id @default(cuid())
+  instagram    String?
+  clienteNome  String?
+  ordem        Int            @default(0)
+  destaqueHome Boolean        @default(false)
+  ativo        Boolean        @default(true)
+  fotos        TrabalhoFoto[]
+  createdAt    DateTime       @default(now())
+}
+
+model TrabalhoFoto {
+  id         String    @id @default(cuid())
+  trabalhoId String
+  trabalho   Trabalho  @relation(fields: [trabalhoId], references: [id], onDelete: Cascade)
+  url        String
+  tipo       TipoMidia @default(FOTO)
+  ordem      Int       @default(0)
+}

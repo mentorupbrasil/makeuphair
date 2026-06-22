@@ -82,7 +82,7 @@ export function MidiasManager({ initial }: { initial: Midia[] }) {
             <input name="ordem" type="number" defaultValue={0} className="mt-1 w-full border border-black/10 p-3 text-sm" />
           </div>
           <label className="flex items-center gap-2 text-sm">
-            <input type="checkbox" name="destaqueHome" defaultChecked />
+            <input type="checkbox" name="destaqueHome" />
             Destaque na Home (carrossel)
           </label>
           <div className="md:col-span-2">

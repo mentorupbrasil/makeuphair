@@ -1,4 +1,3 @@
-import Image from "next/image";
 import Link from "next/link";
 import { prisma } from "@/lib/prisma";
 import { HeroCarousel } from "@/components/public/hero-carousel";
@@ -6,15 +5,21 @@ import { SiteFooter } from "@/components/public/site-chrome";
 import { ServicesShowcase } from "@/components/public/services-showcase";
 import { TestimonialsBand } from "@/components/public/testimonials-band";
 import { BookingCta } from "@/components/public/booking-cta";
+import { PortfolioCarousel } from "@/components/public/portfolio-carousel";
 import { BRAND } from "@/lib/brand";
 
 export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const [midias, servicos, depoimentos, perfil] = await Promise.all([
-    prisma.midia.findMany({
+  const [trabalhos, midiasHero, servicos, depoimentos, perfil] = await Promise.all([
+    prisma.trabalho.findMany({
       where: { ativo: true },
-      orderBy: [{ destaqueHome: "desc" }, { ordem: "asc" }, { createdAt: "desc" }],
+      include: { fotos: { orderBy: { ordem: "asc" } } },
+      orderBy: [{ ordem: "asc" }, { createdAt: "desc" }],
+    }),
+    prisma.midia.findMany({
+      where: { ativo: true, destaqueHome: true },
+      orderBy: [{ ordem: "asc" }, { createdAt: "desc" }],
     }),
     prisma.servico.findMany({
       where: { ativo: true, destaque: true },
@@ -31,10 +36,17 @@ export default async function HomePage() {
     prisma.perfil.findFirst(),
   ]);
 
-  const heroSlides = midias.filter((m) => m.destaqueHome);
-  const heroItems = heroSlides.length > 0 ? heroSlides : midias.slice(0, 5);
-  const heroIds = new Set(heroItems.map((m) => m.id));
-  const gallery = midias.filter((m) => !heroIds.has(m.id));
+  // Hero: só itens marcados explicitamente — nunca preenche com todo o portfólio
+  const heroFromTrabalhos = trabalhos
+    .filter((t) => t.destaqueHome && t.fotos[0])
+    .map((t) => ({
+      id: t.id,
+      url: t.fotos[0].url,
+      tipo: t.fotos[0].tipo,
+      titulo: t.instagram || t.clienteNome,
+    }));
+  const heroItems = [...heroFromTrabalhos, ...midiasHero];
+  const portfolioItems = trabalhos;
 
   return (
     <>
@@ -83,37 +95,18 @@ export default async function HomePage() {
           <p className="section-label">Portfólio</p>
           <div className="mt-4 flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
             <h2 className="font-display text-4xl font-light md:text-5xl">Trabalhos recentes</h2>
-            {midias.length > 0 && (
+            {portfolioItems.length > 0 && (
               <Link href="/portfolio" className="text-[10px] uppercase tracking-[0.28em] text-stone transition hover:text-ink">
                 Ver portfólio completo →
               </Link>
             )}
           </div>
-          {gallery.length === 0 ? (
+          {portfolioItems.length === 0 ? (
             <p className="mt-12 text-stone">
               Em breve novos trabalhos. A Bianca está preparando o portfólio.
             </p>
           ) : (
-            <div className="mt-12 columns-1 gap-4 sm:columns-2 lg:columns-3">
-              {gallery.map((m) => (
-                <div key={m.id} className="mb-4 break-inside-avoid overflow-hidden">
-                  {m.tipo === "VIDEO" ? (
-                    <video src={m.url} controls className="w-full" />
-                  ) : (
-                    <Image
-                      src={m.url}
-                      alt={m.titulo || "Trabalho"}
-                      width={600}
-                      height={800}
-                      className="w-full object-cover transition duration-500 hover:scale-[1.02]"
-                    />
-                  )}
-                  {m.titulo && (
-                    <p className="mt-2 text-[10px] uppercase tracking-[0.2em] text-stone">{m.titulo}</p>
-                  )}
-                </div>
-              ))}
-            </div>
+            <PortfolioCarousel trabalhos={portfolioItems} limit={6} />
           )}
         </div>
       </section>
