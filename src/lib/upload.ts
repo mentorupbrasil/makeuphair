@@ -25,8 +25,26 @@ function fileExtension(file: File, isVideo: boolean) {
   return file.name.split(".").pop()?.toLowerCase() || (isVideo ? "mp4" : "jpg");
 }
 
+export function blobOptions() {
+  const storeId = process.env.BLOB_STORE_ID;
+  return storeId ? { storeId } : {};
+}
+
+function blobAccess(): "public" | "private" {
+  return process.env.BLOB_ACCESS === "public" ? "public" : "private";
+}
+
 function useBlobStorage() {
-  return Boolean(process.env.BLOB_READ_WRITE_TOKEN);
+  if (process.env.BLOB_READ_WRITE_TOKEN) return true;
+  if (process.env.VERCEL && process.env.BLOB_STORE_ID) return true;
+  return false;
+}
+
+export function blobPathnameFromUrl(url: string): string | null {
+  if (url.startsWith("/api/media/")) {
+    return url.replace("/api/media/", "");
+  }
+  return null;
 }
 
 async function saveToLocal(file: File, isVideo: boolean) {
@@ -41,7 +59,16 @@ async function saveToLocal(file: File, isVideo: boolean) {
 async function saveToBlob(file: File, isVideo: boolean) {
   const ext = fileExtension(file, isVideo);
   const pathname = `midias/${randomUUID()}.${ext}`;
-  const blob = await put(pathname, file, { access: "public" });
+  const access = blobAccess();
+  const blob = await put(pathname, file, {
+    access,
+    ...blobOptions(),
+  });
+
+  // Store privado: servir via proxy /api/media (store da Vercel é private por padrão)
+  if (access === "private") {
+    return `/api/media/${pathname}`;
+  }
   return blob.url;
 }
 
@@ -54,7 +81,7 @@ export async function saveUpload(file: File): Promise<{ url: string; tipo: "FOTO
     url = await saveToBlob(file, isVideo);
   } else if (process.env.VERCEL) {
     throw new Error(
-      "Upload na Vercel requer Vercel Blob. Adicione BLOB_READ_WRITE_TOKEN nas variáveis de ambiente."
+      "Configure o Vercel Blob: conecte o store ao projeto ou adicione BLOB_READ_WRITE_TOKEN."
     );
   } else {
     url = await saveToLocal(file, isVideo);
@@ -64,8 +91,14 @@ export async function saveUpload(file: File): Promise<{ url: string; tipo: "FOTO
 }
 
 export async function deleteUpload(url: string) {
+  const pathname = blobPathnameFromUrl(url);
+  if (pathname) {
+    await del(pathname, blobOptions());
+    return;
+  }
+
   if (url.includes("blob.vercel-storage.com") || url.startsWith("https://")) {
-    await del(url);
+    await del(url, blobOptions());
     return;
   }
 
