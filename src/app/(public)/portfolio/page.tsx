@@ -13,20 +13,20 @@ export default async function PortfolioPage() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
-      <h1 className="font-serif text-4xl text-stone-900">Portfólio</h1>
-      <p className="mt-2 text-stone-500">
+      <h1 className="font-serif text-4xl text-brand-brown">Portfólio</h1>
+      <p className="mt-2 text-brand-taupe-dark">
         Galeria de trabalhos — maquiagem, penteados, noivas e eventos.
       </p>
 
       {items.length === 0 ? (
         <div className="mt-16 text-center">
-          <ImageIcon className="mx-auto h-12 w-12 text-stone-300" />
-          <p className="mt-4 text-stone-500">
+          <ImageIcon className="mx-auto h-12 w-12 text-brand-taupe" />
+          <p className="mt-4 text-brand-taupe-dark">
             Portfólio em construção. Em breve novas fotos!
           </p>
           <div className="mt-8 flex flex-wrap justify-center gap-2">
             {categorias.map((cat) => (
-              <Badge key={cat} className="bg-rose-100 text-rose-700">
+              <Badge key={cat} className="bg-brand-cream text-brand-brown">
                 {CATEGORIA_PORTFOLIO_LABEL[cat]}
               </Badge>
             ))}
@@ -37,14 +37,14 @@ export default async function PortfolioPage() {
           {items.map((item) => (
             <div
               key={item.id}
-              className="aspect-square overflow-hidden rounded-2xl bg-gradient-to-br from-rose-50 to-amber-50"
+              className="aspect-square overflow-hidden rounded-sm bg-brand-cream/50"
             >
               <div className="flex h-full flex-col items-center justify-center p-4">
-                <Badge className="bg-white/80 text-rose-700">
+                <Badge className="bg-white/80 text-brand-brown">
                   {CATEGORIA_PORTFOLIO_LABEL[item.categoria]}
                 </Badge>
                 {item.titulo && (
-                  <p className="mt-2 text-sm font-medium text-stone-700">{item.titulo}</p>
+                  <p className="mt-2 text-sm font-medium text-brand-taupe-dark">{item.titulo}</p>
                 )}
               </div>
             </div>

@@ -2,10 +2,11 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
-import { Card, CardTitle } from "@/components/ui/card";
+import { Card } from "@/components/ui/card";
 import { FormField, Input } from "@/components/ui/input";
-import { Sparkles } from "lucide-react";
+import { BRAND } from "@/lib/brand";
 
 export default function LoginPage() {
   const router = useRouter();
@@ -36,11 +37,19 @@ export default function LoginPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-gradient-to-br from-stone-900 to-stone-800 p-4">
-      <Card className="w-full max-w-md">
-        <div className="mb-6 flex items-center gap-2">
-          <Sparkles className="h-6 w-6 text-rose-500" />
-          <CardTitle>MakeupHair — Admin</CardTitle>
+    <div className="flex min-h-screen items-center justify-center bg-brand-bg-dark p-4">
+      <Card className="w-full max-w-md border-brand-cream/20">
+        <div className="mb-8 flex flex-col items-center">
+          <Image
+            src={BRAND.assets.logoPrimary}
+            alt={BRAND.fullName}
+            width={180}
+            height={180}
+            className="h-32 w-auto object-contain"
+          />
+          <p className="mt-3 text-xs uppercase tracking-widest text-brand-taupe">
+            Painel administrativo
+          </p>
         </div>
         <form onSubmit={handleSubmit} className="space-y-4">
           <FormField label="E-mail" htmlFor="email">

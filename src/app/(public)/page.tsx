@@ -1,10 +1,13 @@
 import Link from "next/link";
+import Image from "next/image";
 import { prisma } from "@/lib/prisma";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { BrandLogo } from "@/components/public/brand-logo";
+import { BRAND } from "@/lib/brand";
 import { formatCurrency } from "@/lib/utils";
 import { CATEGORIA_SERVICO_LABEL } from "@/lib/constants";
-import { Star, Clock, Sparkles } from "lucide-react";
+import { Star, Clock } from "lucide-react";
 
 export default async function HomePage() {
   const [servicos, depoimentos, perfil] = await Promise.all([
@@ -22,19 +25,20 @@ export default async function HomePage() {
 
   return (
     <>
-      {/* Hero */}
       <section className="gradient-hero px-4 py-20 md:py-28">
         <div className="mx-auto grid max-w-6xl items-center gap-12 md:grid-cols-2">
           <div>
-            <p className="mb-3 text-sm font-medium uppercase tracking-widest text-rose-500">
+            <p className="mb-3 text-xs font-medium uppercase tracking-[0.3em] text-brand-taupe-dark">
               Beleza & Elegância
             </p>
-            <h1 className="font-serif text-4xl leading-tight text-stone-900 md:text-5xl">
-              {perfil?.nome || "Studio MakeupHair"}
+            <h1 className="font-serif text-4xl leading-tight text-brand-brown md:text-5xl">
+              {perfil?.nome || BRAND.name}
             </h1>
-            <p className="mt-4 text-lg text-stone-600">
-              {perfil?.bio ||
-                "Maquiagem e penteados profissionais para transformar seus momentos especiais."}
+            <p className="mt-2 text-sm uppercase tracking-[0.2em] text-brand-camel">
+              {BRAND.tagline}
+            </p>
+            <p className="mt-4 text-lg text-brand-taupe-dark">
+              {perfil?.bio || BRAND.description}
             </p>
             <div className="mt-8 flex flex-wrap gap-4">
               <Link href="/agendar">
@@ -47,37 +51,47 @@ export default async function HomePage() {
               </Link>
             </div>
           </div>
-          <div className="relative flex aspect-square items-center justify-center rounded-3xl bg-gradient-to-br from-rose-100 to-amber-50 shadow-xl">
-            <div className="text-center">
-              <Sparkles className="mx-auto h-16 w-16 text-rose-400" />
-              <p className="mt-4 font-serif text-xl text-rose-800">Sua beleza, nossa arte</p>
-            </div>
+          <div className="relative flex aspect-square items-center justify-center overflow-hidden rounded-sm bg-white/60 shadow-xl backdrop-blur-sm">
+            <div className="pattern-bg absolute inset-0 opacity-20" />
+            <BrandLogo variant="stacked" className="relative z-10" />
           </div>
         </div>
       </section>
 
-      {/* Serviços em destaque */}
       <section className="px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center font-serif text-3xl text-stone-900">Serviços em destaque</h2>
-          <p className="mt-2 text-center text-stone-500">Escolha o serviço ideal para você</p>
+          <h2 className="text-center font-serif text-3xl text-brand-brown">
+            Serviços em destaque
+          </h2>
+          <p className="mt-2 text-center text-brand-taupe-dark">
+            Escolha o serviço ideal para você
+          </p>
           <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
             {servicos.map((s) => (
               <Card key={s.id} className="flex flex-col gap-3 transition hover:shadow-md">
-                <div className="flex h-32 items-center justify-center rounded-xl bg-rose-50">
-                  <Sparkles className="h-8 w-8 text-rose-300" />
+                <div className="flex h-32 items-center justify-center bg-brand-cream/50">
+                  <Image
+                    src={BRAND.assets.monogram}
+                    alt=""
+                    width={48}
+                    height={48}
+                    className="h-10 w-10 opacity-40"
+                    aria-hidden
+                  />
                 </div>
-                <p className="text-xs font-medium uppercase text-rose-500">
+                <p className="text-xs font-medium uppercase tracking-wider text-brand-camel">
                   {CATEGORIA_SERVICO_LABEL[s.categoria]}
                 </p>
-                <h3 className="font-semibold text-stone-900">{s.nome}</h3>
-                <p className="flex-1 text-sm text-stone-500 line-clamp-2">{s.descricao}</p>
+                <h3 className="font-serif font-medium text-brand-brown">{s.nome}</h3>
+                <p className="flex-1 text-sm text-brand-taupe-dark line-clamp-2">
+                  {s.descricao}
+                </p>
                 <div className="flex items-center justify-between text-sm">
-                  <span className="flex items-center gap-1 text-stone-400">
+                  <span className="flex items-center gap-1 text-brand-taupe">
                     <Clock className="h-3.5 w-3.5" />
                     {s.duracaoMin} min
                   </span>
-                  <span className="font-semibold text-rose-600">
+                  <span className="font-medium text-brand-brown">
                     a partir de {formatCurrency(s.valorInicial)}
                   </span>
                 </div>
@@ -92,31 +106,29 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {/* Depoimentos */}
-      <section className="bg-rose-50/50 px-4 py-16">
+      <section className="bg-brand-cream/30 px-4 py-16">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-center font-serif text-3xl text-stone-900">Depoimentos</h2>
+          <h2 className="text-center font-serif text-3xl text-brand-brown">Depoimentos</h2>
           <div className="mt-10 grid gap-6 md:grid-cols-3">
             {depoimentos.map((d) => (
               <Card key={d.id}>
                 <div className="mb-3 flex gap-1">
                   {Array.from({ length: d.estrelas }).map((_, i) => (
-                    <Star key={i} className="h-4 w-4 fill-amber-400 text-amber-400" />
+                    <Star key={i} className="h-4 w-4 fill-brand-camel text-brand-camel" />
                   ))}
                 </div>
-                <p className="text-sm text-stone-600">&ldquo;{d.texto}&rdquo;</p>
-                <p className="mt-4 text-sm font-medium text-stone-800">— {d.nome}</p>
+                <p className="text-sm text-brand-taupe-dark">&ldquo;{d.texto}&rdquo;</p>
+                <p className="mt-4 text-sm font-medium text-brand-brown">— {d.nome}</p>
               </Card>
             ))}
           </div>
         </div>
       </section>
 
-      {/* CTA */}
-      <section className="px-4 py-16">
-        <div className="mx-auto max-w-2xl text-center">
-          <h2 className="font-serif text-3xl text-stone-900">Pronta para brilhar?</h2>
-          <p className="mt-3 text-stone-500">
+      <section className="pattern-bg px-4 py-16">
+        <div className="mx-auto max-w-2xl rounded-sm bg-white/90 p-10 text-center backdrop-blur-sm">
+          <h2 className="font-serif text-3xl text-brand-brown">Pronta para brilhar?</h2>
+          <p className="mt-3 text-brand-taupe-dark">
             Agende seu horário online de forma rápida e prática.
           </p>
           <Link href="/agendar" className="mt-6 inline-block">

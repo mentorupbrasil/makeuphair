@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<x:xmpmeta xmlns:x="adobe:ns:meta/">
+    <rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#">
+        <rdf:Description rdf:about="" xmlns="http://namespace.corel.com/Cdr/metadata">
+            <TextStream>
+                <TextRun break="para" lang="1046">#C3B19B</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">#7F654C</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">ALTA</TextRun>
+                <TextRun break="line" lang="1046">MONTSERRAT</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">SIMBOLOGIA</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">TIPOGRAFIA</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">PALETA  DE  CORES</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">DESCRITA EM COMPROVANTE DE PAGAMENTO</TextRun>
+            </TextStream>
+            <TextStream>
+                <TextRun break="para" lang="1046">MAIO 2026</TextRun>
+            </TextStream>
+            <ObjectNames>
+                <rdf:Bag />
+            </ObjectNames>
+            <LayerNames>
+                <rdf:Bag>
+                    <rdf:li>Camada 1</rdf:li>
+                </rdf:Bag>
+            </LayerNames>
+            <PageNames>
+                <rdf:Bag />
+            </PageNames>
+        </rdf:Description>
+    </rdf:RDF>
+</x:xmpmeta>

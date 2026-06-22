@@ -80,7 +80,7 @@ export default async function AgendaPage({
                 {doDia.map((a) => (
                   <div
                     key={a.id}
-                    className="rounded-lg border border-rose-100 bg-rose-50 p-2 text-xs"
+                    className="rounded-sm border border-brand-cream bg-brand-cream/30 p-2 text-xs"
                   >
                     <p className="font-semibold text-stone-800">{a.horaInicio}</p>
                     <p className="text-stone-600">{a.cliente.nome}</p>

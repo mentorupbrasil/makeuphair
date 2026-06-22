@@ -26,10 +26,10 @@ async function main() {
     update: {},
     create: {
       id: "perfil-default",
-      nome: "Studio MakeupHair",
-      bio: "Maquiadora e penteadista especializada em noivas, eventos e produções completas.",
+      nome: "Bianca Brito",
+      bio: "Maquiadora e penteadista especializada em noivas, eventos e produções completas. Beleza com elegância e sofisticação.",
       telefone: "(11) 99999-9999",
-      instagram: "@makeuphair",
+      instagram: "@biancabrito.makeup",
       whatsapp: "5511999999999",
     },
   });

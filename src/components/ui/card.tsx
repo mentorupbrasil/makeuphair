@@ -10,7 +10,7 @@ export function Card({
   return (
     <div
       className={cn(
-        "rounded-2xl border border-stone-200 bg-white p-6 shadow-sm",
+        "rounded-sm border border-brand-cream bg-white p-6 shadow-sm",
         className
       )}
     >
@@ -27,7 +27,7 @@ export function CardTitle({
   children: React.ReactNode;
 }) {
   return (
-    <h3 className={cn("text-lg font-semibold text-stone-900", className)}>
+    <h3 className={cn("font-serif text-lg font-medium text-brand-brown", className)}>
       {children}
     </h3>
   );
@@ -47,11 +47,11 @@ export function StatCard({
   return (
     <Card className="flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="text-sm text-stone-500">{label}</span>
-        {icon && <span className="text-rose-400">{icon}</span>}
+        <span className="text-sm text-brand-taupe-dark">{label}</span>
+        {icon && <span className="text-brand-camel">{icon}</span>}
       </div>
-      <p className="text-2xl font-bold text-stone-900">{value}</p>
-      {trend && <p className="text-xs text-stone-400">{trend}</p>}
+      <p className="font-serif text-2xl font-semibold text-brand-brown">{value}</p>
+      {trend && <p className="text-xs text-brand-taupe">{trend}</p>}
     </Card>
   );
 }

@@ -57,8 +57,8 @@ export default function AgendarPage() {
     return (
       <div className="mx-auto max-w-lg px-4 py-20 text-center">
         <CheckCircle className="mx-auto h-16 w-16 text-emerald-500" />
-        <h1 className="mt-4 font-serif text-3xl text-stone-900">Agendamento solicitado!</h1>
-        <p className="mt-2 text-stone-500">
+        <h1 className="mt-4 font-serif text-3xl text-brand-brown">Agendamento solicitado!</h1>
+        <p className="mt-2 text-brand-taupe-dark">
           Recebemos sua solicitação. Em breve entraremos em contato para confirmar.
         </p>
       </div>
@@ -67,15 +67,15 @@ export default function AgendarPage() {
 
   return (
     <div className="mx-auto max-w-lg px-4 py-12">
-      <h1 className="font-serif text-4xl text-stone-900">Agendar horário</h1>
-      <p className="mt-2 text-stone-500">Preencha os dados abaixo para reservar seu horário.</p>
+      <h1 className="font-serif text-4xl text-brand-brown">Agendar horário</h1>
+      <p className="mt-2 text-brand-taupe-dark">Preencha os dados abaixo para reservar seu horário.</p>
 
       {/* Steps indicator */}
       <div className="mt-8 flex gap-2">
         {[1, 2, 3].map((s) => (
           <div
             key={s}
-            className={`h-1 flex-1 rounded-full ${step >= s ? "bg-rose-500" : "bg-stone-200"}`}
+            className={`h-1 flex-1 rounded-full ${step >= s ? "bg-brand-taupe-dark" : "bg-brand-cream"}`}
           />
         ))}
       </div>
@@ -84,7 +84,7 @@ export default function AgendarPage() {
         <form onSubmit={handleSubmit}>
           {step === 1 && (
             <div className="space-y-4">
-              <h2 className="font-semibold text-stone-900">1. Escolha o serviço</h2>
+              <h2 className="font-serif font-medium text-brand-brown">1. Escolha o serviço</h2>
               <FormField label="Serviço" htmlFor="servico">
                 <Select
                   id="servico"
@@ -101,7 +101,7 @@ export default function AgendarPage() {
                 </Select>
               </FormField>
               {servico && (
-                <p className="text-sm text-stone-500">
+                <p className="text-sm text-brand-taupe-dark">
                   Duração estimada: {servico.duracaoMin} minutos
                 </p>
               )}
@@ -113,7 +113,7 @@ export default function AgendarPage() {
 
           {step === 2 && (
             <div className="space-y-4">
-              <h2 className="font-semibold text-stone-900">2. Data e horário</h2>
+              <h2 className="font-serif font-medium text-brand-brown">2. Data e horário</h2>
               <FormField label="Data" htmlFor="data">
                 <Input
                   id="data"
@@ -148,7 +148,7 @@ export default function AgendarPage() {
 
           {step === 3 && (
             <div className="space-y-4">
-              <h2 className="font-semibold text-stone-900">3. Seus dados</h2>
+              <h2 className="font-serif font-medium text-brand-brown">3. Seus dados</h2>
               <FormField label="Nome completo" htmlFor="nome">
                 <Input
                   id="nome"
@@ -173,7 +173,7 @@ export default function AgendarPage() {
                   onChange={(e) => setForm({ ...form, email: e.target.value })}
                 />
               </FormField>
-              <div className="rounded-lg bg-rose-50 p-4 text-sm text-stone-600">
+              <div className="rounded-sm bg-brand-cream/50 p-4 text-sm text-brand-taupe-dark">
                 <p><strong>Serviço:</strong> {servico?.nome}</p>
                 <p><strong>Data:</strong> {form.data} às {form.hora}</p>
                 {servico && <p><strong>Valor:</strong> {formatCurrency(servico.valorInicial)}</p>}

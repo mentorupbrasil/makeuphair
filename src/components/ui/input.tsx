@@ -8,7 +8,7 @@ export const Input = forwardRef<
   <input
     ref={ref}
     className={cn(
-      "w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100",
+      "w-full rounded-sm border border-brand-cream bg-white px-3 py-2 text-sm text-foreground placeholder:text-brand-taupe focus:border-brand-taupe-dark focus:outline-none focus:ring-2 focus:ring-brand-cream",
       className
     )}
     {...props}
@@ -23,7 +23,7 @@ export const Textarea = forwardRef<
   <textarea
     ref={ref}
     className={cn(
-      "w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 placeholder:text-stone-400 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100",
+      "w-full rounded-sm border border-brand-cream bg-white px-3 py-2 text-sm text-foreground placeholder:text-brand-taupe focus:border-brand-taupe-dark focus:outline-none focus:ring-2 focus:ring-brand-cream",
       className
     )}
     {...props}
@@ -38,7 +38,7 @@ export const Select = forwardRef<
   <select
     ref={ref}
     className={cn(
-      "w-full rounded-lg border border-stone-200 bg-white px-3 py-2 text-sm text-stone-900 focus:border-rose-400 focus:outline-none focus:ring-2 focus:ring-rose-100",
+      "w-full rounded-sm border border-brand-cream bg-white px-3 py-2 text-sm text-foreground focus:border-brand-taupe-dark focus:outline-none focus:ring-2 focus:ring-brand-cream",
       className
     )}
     {...props}
@@ -58,7 +58,7 @@ export function Label({
   return (
     <label
       htmlFor={htmlFor}
-      className="mb-1 block text-sm font-medium text-stone-700"
+      className="mb-1 block text-xs font-medium uppercase tracking-wider text-brand-taupe-dark"
     >
       {children}
     </label>
